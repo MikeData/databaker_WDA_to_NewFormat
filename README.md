@@ -1,4 +1,4 @@
-# databaker_WDA_to_NewFormat
+# databaker_WDA_to_NewStructure
 quickie Pandas script that converts older WDA style CSV flat files to the a newer less bulky/silly csv shape.
 
 Uses Python (tested on 2.7 an 3.5).

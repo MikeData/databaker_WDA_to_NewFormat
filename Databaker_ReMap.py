@@ -48,6 +48,12 @@ source = pd.read_csv(load_file, dtype=object)
 newDF = pd.DataFrame(columns=standardDims)
 
 
+# gonna lower-case the source column names, in case of SAS source (they like caps)
+cols = source.columns.values
+cols = [x.lower() for x in cols]
+source.columns = cols
+
+
 # mapping for standard columns
 for key in mapping.keys():
     newDF[key] = source[mapping[key]]
@@ -56,10 +62,6 @@ for key in mapping.keys():
 # how many 'topic' dimensions do we have
 numberTopics = int((len(source.columns.values) - 32) / 8)
 
-# gonna lower-case the source column names, in case of SAS source (they like caps)
-cols = source.columns.values
-cols = [x.lower() for x in cols]
-source.columns = cols
 
 # For each topic dimensions output our name and value
 for T in range(1, numberTopics+1):

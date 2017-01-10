@@ -1,8 +1,6 @@
 
 # coding: utf-8
 
-
-
 # constants
 
 standardDims = [
@@ -23,17 +21,18 @@ topicDims = [
 'Dimension_Value_'
 ]
 
+# Using column index number for source to deal with inconsistent headers
 mapping = {
-    'Observation':'observation',
-    'Data_Marking':'data_marking',
-    'ValueDomain':'measure_type_eng',
-    'Obs_Type':'observation_type',
-    'Obs_Type_Value':'obs_type_value',
-    'Unit_of_Measure_Eng':'unit_of_measure_eng',
-    'Geographic_Area':'geographic_area',
-    'Time':'time_dim_item_id',
-    'Time_Type':'time_type',
-    'CDID':'cdid',
+    'Observation':0,
+    'Data_Marking':1,
+    'ValueDomain':4,
+    'Obs_Type':6,
+    'Obs_Type_Value':8,
+    'Unit_of_Measure_Eng':10,
+    'Geographic_Area':14,
+    'Time':17,
+    'Time_Type':20,
+    'CDID':25,
 }
 
 
@@ -48,19 +47,13 @@ source = pd.read_csv(load_file, dtype=object)
 newDF = pd.DataFrame(columns=standardDims)
 
 
-# gonna lower-case the source column names, in case of SAS source (they like caps)
-cols = source.columns.values
-cols = [x.lower() for x in cols]
-source.columns = cols
-
-
 # mapping for standard columns
 for key in mapping.keys():
-    newDF[key] = source[mapping[key]]
+    newDF[key] = source.ix[:,mapping[key]]
 
 
 # how many 'topic' dimensions do we have
-numberTopics = int((len(source.columns.values) - 32) / 8)
+numberTopics = int((len(source.columns.values) - 35) / 8)
 
 
 # For each topic dimensions output our name and value
